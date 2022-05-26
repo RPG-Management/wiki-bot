@@ -3,7 +3,7 @@ import Discord from "discord.js";
 import { handleMessage, loadCommands } from "./commands";
 dotenv.config();
 
-const bot = new Discord.Client({
+export const bot = new Discord.Client({
   intents: ["GUILD_MESSAGES", "GUILDS"],
   partials: ["CHANNEL", "MESSAGE", "USER"],
 });

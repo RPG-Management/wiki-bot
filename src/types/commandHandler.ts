@@ -1,7 +1,9 @@
-import { Message } from "discord.js";
+import { Client, Message } from "discord.js";
 
 export interface CommandHandler {
   process(message: Message): Promise<void>;
+  new?: (bot: Client) => CommandHandler;
+
   shortDescription: () => string;
   longDescription: () => string;
   name: () => string;
