@@ -19,7 +19,7 @@ export const loadCommands = async () => {
   );
 };
 
-const prefix = process.env.DISCORD_BOT_PREFIX || "!";
+export const prefix = process.env.DISCORD_BOT_PREFIX || "!";
 
 export const handleMessage = async (message: Message) => {
   if (message.author.bot) return;
@@ -28,6 +28,7 @@ export const handleMessage = async (message: Message) => {
   if (!content.startsWith(prefix)) return;
   const command = content.split(" ")[0].substring(prefix.length);
 
-  if (command === "help") {
-  }
+  if (command === "help") return sendHelp(message);
 };
+
+const sendHelp = (message: Message) => {};
