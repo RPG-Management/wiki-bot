@@ -9,4 +9,5 @@ export interface CommandHandler {
     name: string;
     description: string;
   }[];
+  usage: () => string;
 }

@@ -1,6 +1,7 @@
 import { Message } from "discord.js";
 import { CommandHandler } from "types/commandHandler";
 import * as fs from "fs/promises";
+import { createEmbed } from "./utils/embed";
 
 const commands = new Map<string, CommandHandler>();
 
@@ -31,4 +32,47 @@ export const handleMessage = async (message: Message) => {
   if (command === "help") return sendHelp(message);
 };
 
-const sendHelp = (message: Message) => {};
+export const sendError = (
+  message: Message,
+  title: string,
+  description: string
+) => {
+  const embed = createEmbed(title, description, "error");
+  message.channel.send({ embeds: [embed] });
+};
+
+const sendHelp = (message: Message) => {
+  if (message.content.split(" ").length === 1) {
+    const embed = createEmbed(
+      "D&D Wiki help",
+      "List of all commands available."
+    ).addFields(
+      [...commands.values()].map((c) => ({
+        name: `${prefix}${c.name()}`,
+        value: c.shortDescription() + `\n\`${c.usage()}\``,
+      }))
+    );
+    message.channel.send({ embeds: [embed] });
+  } else {
+    const command = message.content.split(" ")[1];
+    const commandObject = commands.get(command);
+    if (!commandObject)
+      return sendError(
+        message,
+        "Error: Command not found",
+        `Command \`${command}\` not found.`
+      );
+
+    const embed = createEmbed(
+      `D&D Wiki help: ${commandObject.name()}`,
+      commandObject.longDescription() + "\n" + commandObject.usage()
+    ).addFields(
+      [...commandObject.params()].map((p) => ({
+        name: p.name,
+        value: p.description,
+      }))
+    );
+
+    message.channel.send({ embeds: [embed] });
+  }
+};
