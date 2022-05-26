@@ -1,6 +1,6 @@
 import { prefix } from "../commands";
 import { Message } from "discord.js";
-import { CommandHandler } from "types/commandHandler";
+import { CommandHandler } from "../types/commandHandler";
 
 export default class ItemCommand implements CommandHandler {
   name = () => "spell";

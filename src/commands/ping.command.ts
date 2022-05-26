@@ -1,6 +1,6 @@
 import { prefix } from "../commands";
 import { Client, Message } from "discord.js";
-import { CommandHandler } from "types/commandHandler";
+import { CommandHandler } from "../types/commandHandler";
 import { createEmbed } from "../utils/embed";
 import axios from "axios";
 

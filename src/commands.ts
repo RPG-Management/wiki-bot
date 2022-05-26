@@ -1,5 +1,5 @@
 import { Message } from "discord.js";
-import { CommandHandler } from "types/commandHandler";
+import { CommandHandler } from "./types/commandHandler";
 import * as fs from "fs/promises";
 import { createEmbed } from "./utils/embed";
 import { bot } from "./main";

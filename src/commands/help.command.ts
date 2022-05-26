@@ -1,6 +1,6 @@
 import { commands, prefix, sendError } from "../commands";
 import { Message } from "discord.js";
-import { CommandHandler } from "types/commandHandler";
+import { CommandHandler } from "../types/commandHandler";
 import { createEmbed } from "../utils/embed";
 
 export default class HelpCommand implements CommandHandler {
