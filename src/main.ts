@@ -1,7 +1,7 @@
 import dotenv from "dotenv";
+dotenv.config();
 import Discord from "discord.js";
 import { handleMessage, loadCommands } from "./commands";
-dotenv.config();
 
 export const bot = new Discord.Client({
   intents: ["GUILD_MESSAGES", "GUILDS"],

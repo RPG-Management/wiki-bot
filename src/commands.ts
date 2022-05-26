@@ -26,6 +26,11 @@ export const prefix = process.env.DISCORD_BOT_PREFIX || "!";
 export const handleMessage = async (message: Message) => {
   if (message.author.bot) return;
 
+  if (message.mentions.has(bot.user!)) {
+    const helpCommand = commands.get("help");
+    helpCommand?.process(message);
+  }
+
   const content = message.content;
   if (!content.startsWith(prefix)) return;
   const command = content.split(" ")[0].substring(prefix.length);
@@ -45,6 +50,8 @@ export const handleMessage = async (message: Message) => {
       console.error(e);
       sendError(message, "¯\\_(ツ)_/¯", "An unknown error occured.");
     }
+
+    return;
   }
 };
 
