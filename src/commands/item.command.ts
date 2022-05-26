@@ -5,8 +5,7 @@ import { CommandHandler } from "types/commandHandler";
 export default class SpellCommand implements CommandHandler {
   name = () => "item";
   shortDescription = () => "Get information about an item.";
-  longDescription = () =>
-    `Allows you to get information about a D&D item. Use \`${prefix}item <item name>\`.`;
+  longDescription = () => `Allows you to get information about a D&D item.`;
   params = () => [
     {
       name: "item name",

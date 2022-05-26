@@ -2,11 +2,10 @@ import { prefix } from "../commands";
 import { Message } from "discord.js";
 import { CommandHandler } from "types/commandHandler";
 
-export default class SpellCommand implements CommandHandler {
+export default class ItemCommand implements CommandHandler {
   name = () => "spell";
   shortDescription = () => "Get information about a spell.";
-  longDescription = () =>
-    `Allows you to get information about a D&D spell. Use \`${prefix}spell <spell name>\`.`;
+  longDescription = () => `Allows you to get information about a D&D spell.`;
   params = () => [
     {
       name: "spell name",

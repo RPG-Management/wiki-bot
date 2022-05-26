@@ -3,7 +3,7 @@ import { CommandHandler } from "types/commandHandler";
 import * as fs from "fs/promises";
 import { createEmbed } from "./utils/embed";
 
-const commands = new Map<string, CommandHandler>();
+export const commands = new Map<string, CommandHandler>();
 
 export const loadCommands = async () => {
   const files = await fs.readdir("./dist/commands");
@@ -28,8 +28,23 @@ export const handleMessage = async (message: Message) => {
   const content = message.content;
   if (!content.startsWith(prefix)) return;
   const command = content.split(" ")[0].substring(prefix.length);
+  const commandList = [...commands.keys()];
 
-  if (command === "help") return sendHelp(message);
+  if (commandList.includes(command)) {
+    const commandObject = commands.get(command);
+    if (!commandObject)
+      return sendError(
+        message,
+        "Command not found",
+        `Command \`${command}\` not found.`
+      );
+    try {
+      await commandObject.process(message);
+    } catch (e) {
+      console.error(e);
+      sendError(message, "¯\\_(ツ)_/¯", "An unknown error occured.");
+    }
+  }
 };
 
 export const sendError = (
@@ -59,7 +74,7 @@ const sendHelp = (message: Message) => {
     if (!commandObject)
       return sendError(
         message,
-        "Error: Command not found",
+        " Command not found",
         `Command \`${command}\` not found.`
       );
 
