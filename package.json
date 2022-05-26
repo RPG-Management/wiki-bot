@@ -1,0 +1,17 @@
+{
+  "dependencies": {
+    "concurrently": "^7.2.1",
+    "discord.js": "^13.7.0",
+    "dotenv": "^16.0.1"
+  },
+  "scripts": {
+    "dev": "tsc && concurrently \"tsc -w\" \"nodemon\" "
+  },
+  "name": "discord-dnd-wiki-bot",
+  "version": "1.0.0",
+  "description": "Discord bot for accessing dnd wiki",
+  "main": "dist/main.js",
+  "repository": "https://github.com/TenViki/discord-dnd-wiki-bot",
+  "author": "TenViki <viktorkomarek28@gmail.com>",
+  "license": "MIT"
+}
