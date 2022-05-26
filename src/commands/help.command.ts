@@ -20,7 +20,10 @@ export default class HelpCommand implements CommandHandler {
     if (message.content.split(" ").length === 1) {
       const embed = createEmbed(
         "D&D Wiki help",
-        "List of all commands available.\n`<>` indicates required parameter.\n`[]` indicates optional parameter."
+        "List of all commands available.\n" +
+          "`<>` indicates required parameter.\n" +
+          "`[]` indicates optional parameter.\n" +
+          `Bot prefix: \`${prefix}\``
       ).addFields(
         [...commands.values()].map((c) => ({
           name: `${prefix}${c.name()}`,
