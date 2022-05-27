@@ -62,6 +62,10 @@ export default class ClassCommand implements CommandHandler {
         if (i.customId.includes("levels")) {
           this.processLevels(message, i.customId.split("-")[2]);
         }
+
+        if (i.customId.includes("spellcasting")) {
+          this.processSpellcasting(message, i.customId.split("-")[2]);
+        }
       }
     });
 
@@ -157,6 +161,25 @@ export default class ClassCommand implements CommandHandler {
         undefined,
       ];
     }
+  };
+
+  processSpellcasting = async (message: Message, classIndex: string) => {
+    const clazz = await axios.get<Clazz>(
+      "https://www.dnd5eapi.co/api/classes/" + classIndex
+    );
+    const embed = createEmbed(
+      `${clazz.data.name}: Spellcasting`,
+      `Level: **${clazz.data.spellcasting.level}**, Spellcasting ability: **${clazz.data.spellcasting.spellcasting_ability.name}**`
+    );
+
+    embed.addFields(
+      clazz.data.spellcasting.info.map((s) => ({
+        name: s.name,
+        value: s.desc.join("\n").slice(0, 1024),
+      }))
+    );
+
+    message.channel.send({ embeds: [embed] });
   };
 
   processLevels = async (message: Message, clazz: string) => {
