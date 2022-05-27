@@ -95,9 +95,11 @@ export default class SpellsCommand implements CommandHandler {
       ).data);
     if (!spells) spells = list;
 
-    const results = list.results.filter((spell) =>
-      spell.name.toLowerCase().includes(search.toLowerCase())
-    );
+    const results = list.results
+      .filter((spell) =>
+        spell.name.toLowerCase().includes(search.toLowerCase())
+      )
+      .slice(0, 20);
 
     const embed = createEmbed(
       `Spells (search ${search})`,
