@@ -18,3 +18,9 @@ export interface ListResponse<T> {
   count: number;
   results: T[];
 }
+
+export interface ApiReference {
+  index: string;
+  name: string;
+  url: string;
+}
