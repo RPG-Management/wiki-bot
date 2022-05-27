@@ -55,6 +55,7 @@ export interface Spell {
   higher_level: any[];
   index: string;
   name: string;
+  material?: string;
   desc: string[];
   range: string;
   components: string[];
