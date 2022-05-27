@@ -26,7 +26,7 @@ export const prefix = process.env.DISCORD_BOT_PREFIX || "!";
 export const handleMessage = async (message: Message) => {
   if (message.author.bot) return;
 
-  if (message.mentions.has(bot.user!)) {
+  if (message.content === `<@${bot.user?.id}>`) {
     const helpCommand = commands.get("help");
     helpCommand?.process(message);
   }
@@ -47,7 +47,6 @@ export const handleMessage = async (message: Message) => {
     try {
       await commandObject.process(message);
     } catch (e) {
-      console.error(e);
       sendError(
         message,
         "¯\\_(ツ)_/¯",
@@ -64,7 +63,6 @@ export const sendError = (
   title: string,
   description: string
 ) => {
-  console.log("Sending error");
   const embed = createEmbed(title, description, "error");
   message.channel.send({ embeds: [embed] });
 };
