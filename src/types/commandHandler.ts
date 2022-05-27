@@ -13,3 +13,8 @@ export interface CommandHandler {
   }[];
   usage: () => string;
 }
+
+export interface ListResponse<T> {
+  count: number;
+  results: T[];
+}
