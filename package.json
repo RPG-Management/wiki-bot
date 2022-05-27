@@ -8,7 +8,9 @@
     "node-html-to-image": "^3.2.4"
   },
   "scripts": {
-    "dev": "tsc && concurrently \"tsc -w\" \"nodemon\" "
+    "dev": "tsc && concurrently \"tsc -w\" \"nodemon\" ",
+    "build": "tsc",
+    "start": "node dist/main.js"
   },
   "name": "discord-dnd-wiki-bot",
   "version": "1.0.0",
