@@ -145,13 +145,18 @@ export default class ClassCommand implements CommandHandler {
         `**Hit Die:** 1d${clazz.data.hit_die}
 **Saving throws:** ${clazz.data.saving_throws.map((s) => s.name).join(", ")}
 **Subclasses:** ${clazz.data.subclasses.map((s) => s.name).join(", ")}
-**Multi casting:** *prerequisites* ${clazz.data.multi_classing.prerequisites
-          .map((s) => s.ability_score.name + " (" + s.minimum_score + ") ")
-          .join(", ")}`
+${
+  clazz.data.multi_classing?.prerequisites
+    ? `**Multi casting:** *prerequisites* ${clazz.data.multi_classing?.prerequisites
+        .map((s) => s.ability_score.name + " (" + s.minimum_score + ") ")
+        .join(", ")}`
+    : ""
+}`
       );
 
       return [embed, row];
     } catch (error) {
+      if (!axios.isAxiosError(error)) throw error;
       return [
         createEmbed(
           "Class not found",
