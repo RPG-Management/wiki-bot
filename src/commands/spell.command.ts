@@ -1,6 +1,7 @@
 import { prefix } from "../commands";
 import { Message } from "discord.js";
 import { CommandHandler } from "../types/commandHandler";
+import axios from "axios";
 
 export default class ItemCommand implements CommandHandler {
   name = () => "spell";
@@ -15,6 +16,7 @@ export default class ItemCommand implements CommandHandler {
   usage = () => `${prefix}spell <spell name>`;
 
   process = async (message: Message) => {
-    message.channel.send("Ayo nice");
+    const spellName = message.content.split(" ").slice(1).join(" ");
+    // const spell = await axios.get()
   };
 }
