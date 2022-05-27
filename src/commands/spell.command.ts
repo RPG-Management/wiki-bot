@@ -4,6 +4,7 @@ import { CommandHandler } from "../types/commandHandler";
 import axios from "axios";
 import { Damage, Dc, Spell } from "../types/spell.type";
 import { createEmbed } from "../utils/embed";
+import { dndWikiFallback } from "../utils/wiki";
 
 const formatSpellName = (name: string) =>
   name.toLocaleLowerCase().replaceAll(" ", "-");
@@ -108,11 +109,23 @@ export default class ItemCommand implements CommandHandler {
     } catch (error) {
       if (!axios.isAxiosError(error)) throw error;
 
-      sendError(
-        message,
-        "Spell not found",
-        `Spell \`${spellName}\` not found.`
-      );
+      message.channel.send("Spell not found. Using fallback to wiki");
+      try {
+        const a = await dndWikiFallback("spell", formatSpellName(spellName));
+        const embed = createEmbed(`D&D Wiki: ${spellName}`, a, "default", {
+          footer: {
+            text: "Spell fetched from http://dnd5e.wikidot.com/",
+          },
+        });
+        await message.channel.send({ embeds: [embed] });
+      } catch (error) {
+        if (!axios.isAxiosError(error)) throw error;
+        sendError(
+          message,
+          "Spell not found",
+          `Spell \`${spellName}\` not found.`
+        );
+      }
     }
   };
 }
