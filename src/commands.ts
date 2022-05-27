@@ -48,7 +48,11 @@ export const handleMessage = async (message: Message) => {
       await commandObject.process(message);
     } catch (e) {
       console.error(e);
-      sendError(message, "¯\\_(ツ)_/¯", "An unknown error occured.");
+      sendError(
+        message,
+        "¯\\_(ツ)_/¯",
+        "An unknown error occured. \nDetails: `" + e + "`"
+      );
     }
 
     return;
@@ -60,6 +64,7 @@ export const sendError = (
   title: string,
   description: string
 ) => {
+  console.log("Sending error");
   const embed = createEmbed(title, description, "error");
   message.channel.send({ embeds: [embed] });
 };

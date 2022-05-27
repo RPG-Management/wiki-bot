@@ -24,9 +24,11 @@ const formatSpell = (spell: Spell): string => {
       : ""
   }
 **Components:** ${spell.components.join(", ")}
-**Druation:** ${spell.concentration ? "Concentration, " : ""}${spell.duration}${
+**Duration:** ${spell.concentration ? "Concentration, " : ""}${spell.duration}${
     spell.attack_type ? `\n**Attack type:** ${spell.attack_type}` : ""
-  }${spell.school ? `\n**School:** ${spell.school.name}` : ""}
+  }${spell.school ? `\n**School:** ${spell.school.name}` : ""}${
+    spell.ritual ? "\n**Ritual:** Yes" : ""
+  }${spell.material ? `\n**Material:** ${spell.material}` : ""}
 
 ${description}`;
 };
@@ -57,7 +59,7 @@ ${
 };
 
 const formatDC = (dc: Dc) => {
-  return ``;
+  return `DC Type: ${dc.dc_type.name}\nDC Success: ${dc.dc_success}`;
 };
 
 export default class ItemCommand implements CommandHandler {
@@ -74,29 +76,43 @@ export default class ItemCommand implements CommandHandler {
 
   process = async (message: Message) => {
     const spellName = message.content.split(" ").slice(1).join(" ");
-    // try {
-    const spell = await axios.get<Spell>(
-      "https://www.dnd5eapi.co/api/spells/" + formatSpellName(spellName)
-    );
+    try {
+      const spell = await axios.get<Spell>(
+        "https://www.dnd5eapi.co/api/spells/" + formatSpellName(spellName)
+      );
 
-    const embed = createEmbed(
-      `D&D Wiki: ${spell.data.name}`,
-      formatSpell(spell.data)
-    );
+      const embed = createEmbed(
+        `D&D Wiki: ${spell.data.name}`,
+        formatSpell(spell.data)
+      );
 
-    if (spell.data.higher_level.length)
-      embed.addField("At higher level", spell.data.higher_level.join("\n"));
-    if (spell.data.damage)
-      embed.addField("Damage", formatDamage(spell.data.damage));
-    if (spell.data.dc) embed.addField("DC", formatDC(spell.data.dc));
+      if (spell.data.higher_level.length)
+        embed.addField("At higher level", spell.data.higher_level.join("\n"));
+      if (spell.data.damage)
+        embed.addField("Damage", formatDamage(spell.data.damage));
+      if (spell.data.dc) embed.addField("DC", formatDC(spell.data.dc));
 
-    await message.channel.send({ embeds: [embed] });
-    // } catch (error) {
-    //   sendError(
-    //     message,
-    //     "Spell not found",
-    //     `Spell \`${spellName}\` not found.`
-    //   );
-    // }
+      if (spell.data.classes)
+        embed.addField(
+          "Classes",
+          spell.data.classes.map((c) => c.name).join(", ")
+        );
+
+      if (spell.data.subclasses?.length)
+        embed.addField(
+          "Subclasses",
+          spell.data.subclasses.map((c) => c.name).join(", ")
+        );
+
+      await message.channel.send({ embeds: [embed] });
+    } catch (error) {
+      if (!axios.isAxiosError(error)) throw error;
+
+      sendError(
+        message,
+        "Spell not found",
+        `Spell \`${spellName}\` not found.`
+      );
+    }
   };
 }
