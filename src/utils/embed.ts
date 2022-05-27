@@ -21,13 +21,13 @@ const getEmbedColor = (type?: string): ColorResolvable => {
 
 export const createEmbed = (
   title: string,
-  description: string,
+  description?: string,
   type?: "default" | "error" | string,
   options?: MessageEmbedOptions
 ) => {
   return new MessageEmbed(options)
     .setTitle(title)
-    .setDescription(description)
+    .setDescription(description || "")
     .setColor(getEmbedColor(type))
     .setTimestamp();
 };

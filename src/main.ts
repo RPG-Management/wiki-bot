@@ -2,6 +2,7 @@ import dotenv from "dotenv";
 dotenv.config();
 import Discord from "discord.js";
 import { handleMessage, loadCommands } from "./commands";
+import nodeHtmlToImage from "node-html-to-image";
 
 export const bot = new Discord.Client({
   intents: ["GUILD_MESSAGES", "GUILDS"],

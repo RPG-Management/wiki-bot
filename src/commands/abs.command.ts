@@ -22,7 +22,7 @@ export default class AbilityScoreCommand implements CommandHandler {
       description: "The name of the ability score you want to see details of.",
     },
   ];
-  usage = () => `${prefix}abs [spell name]`;
+  usage = () => `${prefix}abs [ability score]`;
 
   processAbilityScore = async (score: string): Promise<MessageEmbed> => {
     try {
